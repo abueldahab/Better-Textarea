@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+	<head>
+		<style>
+			html {
+				height: 100%;
+				overflow: hidden;
+			}
+			body {
+				background: black;
+				padding: 20px 50px;
+				margin: 0px;
+				height:100%;
+			}
+			textarea {
+				float: left;
+				background: transparent;
+				border: 0px;
+				color: #fff;
+				padding: 0px;
+				width: 85%;
+				height: -webkit-calc(100% - 40px);
+				font-family: monospace;
+				outline: none;
+				resize: none;
+				font-size: 13px;
+			}
+			#dropdown_area {
+				float: left;
+				padding-left: 10px;
+				color: white;
+			}
+			#linenosblock {
+				position: absolute;
+				top: 20px;
+				left: 0px;
+				width: 30px;
+				height: -webkit-calc(100% - 56px);
+				font-family: monospace;
+				font-size: 13px;
+				z-index: -1000;
+				text-align: right;
+			}
+			.linenos {
+				color: #7d7d7d;
+			}
+			.linenos.error {
+				color: red;
+			}
+			.linenos .current {
+				color: white;
+			}
+			.linenos .current.error {
+				color: red;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$('.linenos .number').show();
+				$('.linenos .current').hide();
+				$('.linenos[data-row-number=1] .number').hide();
+				$('.linenos[data-row-number=1] .current').show();
+				$('#dropdown_area').hide();
+				$('textarea:input').keydown(function(e) {
+					if(e.keyCode == 9) {
+						var myValue = "  ";
+				        var startPos = this.selectionStart;
+				        var endPos = this.selectionEnd;
+				        var scrollTop = this.scrollTop;
+				        this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
+				        this.focus();
+				        this.selectionStart = startPos + myValue.length;
+				        this.selectionEnd = startPos + myValue.length;
+				        this.scrollTop = scrollTop;
+						e.preventDefault();
+					} else if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey) {
+						$('#dropdown_area').fadeIn();
+						window.dropdown_visible = true;
+					} else if(e.keyCode == 13) {	
+						var currentMaximum = $('#linenosblock').attr('data-total-rows');
+						if(window.currentLine > currentMaximum) {
+							$('#linenosblock').append('<div class="linenos" data-row-number="'+(window.currentLine)+'"><span class="number">'+(window.currentLine)+'</span><span class="current">&rarr;</span></div>');
+							$('#linenosblock').attr('data-total-rows',(window.currentLine));
+
+						}
+					} else if(e.keyCode == 27){
+						if(window.dropdown_visible == true){
+							// remove all values from the search bar also.
+							$('#dropdown_area').fadeOut();
+						}
+					}
+				});
+				$(document).keydown(function(e) {
+
+				});
+				
+			});
+			function getLineNumber(textarea) {
+				value = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
+				window.currentLine =  value + 1;
+				$('.linenos .number').show();
+				$('.linenos .current').hide();
+				$('.linenos[data-row-number=' + value + '] .number').hide();
+				$('.linenos[data-row-number=' + value + '] .current').show();
+				document.getElementById("#linenosblock").scrollTop=document.getElementById("textarea").scrollTop;
+
+			}
+		</script>
+	</head>
+	<body>
+		<div style="overflow:hidden; width:22px;">
+			<!-- bad hack to hide the scroll bars :( -->
+			<div id="linenosblock" data-total-rows="5">
+				<div class="linenos" data-row-number="1"><span class="number">1</span><span class="current">&rarr;</span></div>
+				<div class="linenos" data-row-number="2"><span class="number">2</span><span class="current">&rarr;</span></div>
+				<div class="linenos error" data-row-number="3"><span class="number">3</span><span class="current">&rarr;</span></div>
+				<div class="linenos" data-row-number="4"><span class="number">4</span><span class="current">&rarr;</span></div>
+				<div class="linenos" data-row-number="5"><span class="number">5</span><span class="current">&rarr;</span></div>
+			</div>
+		</div>
+		<textarea id="textarea" spellcheck="false" oninput="getLineNumber(this);" onkeyup="getLineNumber(this);" onmouseup="getLineNumber(this);"></textarea>
+		<div id="dropdown_area">Dropdown</div>
+	</body>	
+</html>
