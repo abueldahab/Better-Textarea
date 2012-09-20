@@ -40,6 +40,7 @@
 				font-size: 13px;
 				z-index: -1000;
 				text-align: right;
+				overflow: auto;
 			}
 			.linenos {
 				color: #7d7d7d;
@@ -91,10 +92,9 @@
 						}
 					}
 				});
-				$(document).keydown(function(e) {
-
-				});
-				
+				function scroll(){
+				$("#linenosblock").scrollTop($("#textarea").scrollTop());
+			}
 			});
 			function getLineNumber(textarea) {
 				value = textarea.value.substr(0, textarea.selectionStart).split("\n").length;
@@ -103,14 +103,13 @@
 				$('.linenos .current').hide();
 				$('.linenos[data-row-number=' + value + '] .number').hide();
 				$('.linenos[data-row-number=' + value + '] .current').show();
-				document.getElementById("#linenosblock").scrollTop=document.getElementById("textarea").scrollTop;
+				
 
 			}
+			
 		</script>
 	</head>
 	<body>
-		<div style="overflow:hidden; width:22px;">
-			<!-- bad hack to hide the scroll bars :( -->
 			<div id="linenosblock" data-total-rows="5">
 				<div class="linenos" data-row-number="1"><span class="number">1</span><span class="current">&rarr;</span></div>
 				<div class="linenos" data-row-number="2"><span class="number">2</span><span class="current">&rarr;</span></div>
@@ -118,8 +117,7 @@
 				<div class="linenos" data-row-number="4"><span class="number">4</span><span class="current">&rarr;</span></div>
 				<div class="linenos" data-row-number="5"><span class="number">5</span><span class="current">&rarr;</span></div>
 			</div>
-		</div>
-		<textarea id="textarea" spellcheck="false" oninput="getLineNumber(this);" onkeyup="getLineNumber(this);" onmouseup="getLineNumber(this);"></textarea>
+		<textarea id="textarea" spellcheck="false" onscroll="scroll();" oninput="getLineNumber(this);" onkeyup="getLineNumber(this);" onmouseup="getLineNumber(this);"></textarea>
 		<div id="dropdown_area">Dropdown</div>
 	</body>	
 </html>
