@@ -98,7 +98,7 @@
 				        this.selectionEnd = startPos + myValue.length;
 				        this.scrollTop = scrollTop;
 						e.preventDefault();
-					} else if ((e.keyCode == 10 || e.keyCode == 13) && e.ctrlKey) {
+					} else if ((e.keyCode == 10 || e.keyCode == 13) && (e.ctrlKey || e.metaKey)) {
 						$('#dropdown_area').fadeIn();
 						e.preventDefault();
 						window.dropdown_visible = true;
