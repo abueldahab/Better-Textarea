@@ -2,9 +2,6 @@
 <html>
 	<head>
 		<style>
-			::-webkit-scrollbar-track-piece {
-				background: black;
-			}
 			html {
 				height: 100%;
 				overflow: hidden;
@@ -91,7 +88,7 @@
 				$('#dropdown_area').hide();
 				$('textarea:input').keydown(function(e) {
 					if(e.keyCode == 9) {
-						var myValue = "  ";
+						var myValue = "   ";
 				        var startPos = this.selectionStart;
 				        var endPos = this.selectionEnd;
 				        var scrollTop = this.scrollTop;
@@ -119,12 +116,21 @@
 					console.log(document.getElementById('linenosblock').scrollTop);
 				});
 			});
-			function placeNewLineNumbers(){
+			function placeNewLineNumbers(data){
 				$('#linenosblock').empty();
 				for(i=1;i<countLines();i++){
 					$('#linenosblock').append('<div class="linenos" data-row-number="'+(i)+'"><span class="number">'+(i)+'</span><span class="current" style="display: none;">&rarr;</span></div>');
 				}
 				$('#linenosblock').attr('data-total-rows',(countLines()));
+			}
+			function in_array(needle, haystack) {
+				for(key in haystack){
+					if (haystack[key] == needle) {
+						return true;
+					} else {
+						return false;
+					}
+				}
 			}
 			function countLines(){
 				var val = $('#textarea').val();
@@ -149,8 +155,7 @@
 			<div id="filename">Untitled</div>
 		<textarea id="textarea" spellcheck="false" onkeyup="placeNewLineNumbers(); getLineNumber(this);" onmouseup="placeNewLineNumbers(); getLineNumber(this);" placeholder="Your pseudo code goes here.                   
 														----------------																										
-														For a list of commands. Press Control + H
-														"></textarea>
+														For a list of commands. Press Control + H"></textarea>
 		<div id="dropdown_area">Dropdown</div>
 	</body>	
 </html>
