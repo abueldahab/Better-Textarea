@@ -1,0 +1,81 @@
+html {
+				height: 100%;
+				overflow: hidden;
+			}
+			body {
+				background: black;
+				padding: 20px 50px;
+				margin: 0px;
+				height:100%;
+			}
+			textarea {
+				float: left;
+				background: transparent;
+				border: 0px;
+				color: #fff;
+				padding: 0px;
+				width: 85%;
+				height: -webkit-calc(100% - 40px);
+				font-family: monospace;
+				outline: none;
+				resize: none;
+				font-size: 13px;
+			}
+			#dropdown_area {
+				float: left;
+				padding-left: 10px;
+				width: 10%;
+				color: white;
+			}
+			#linenosblock {
+				position: absolute;
+				top: 20px;
+				left: 0px;
+				width: 40px;
+				height: -webkit-calc(100% - 40px);
+				font-family: monospace;
+				font-size: 13px;
+				z-index: -1000;
+				text-align: right;
+				overflow-y: hidden;
+			}
+			.linenos {
+				color: #7d7d7d;
+			}
+			.linenos.error {
+				color: red;
+			}
+			.linenos .current {
+				color: white;
+			}
+			.linenos .current.error {
+				color: red;
+			}
+			#filename {
+				margin-top: -13px;
+				color: white;
+				font-size: 13px;
+				font-family: monospace;
+				opacity: 1.0;
+			}
+			#filename.save {
+				-webkit-animation: pulse 2s ease-out;
+				-webkit-animation-iteration-count: infinite;
+			}
+			@-webkit-keyframes pulse {
+				0% {
+					opacity: 0.6;
+				}
+				50% {
+					opacity: 1.0;
+				}
+				100% {
+					opacity: 0.6;
+				}
+			}
+			#dropdown_menu {
+				float: left;
+				padding-left: 10px;
+				width: 10%;
+				color: white;
+			}

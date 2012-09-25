@@ -1,84 +1,10 @@
 <!doctype html>
 <html>
 	<head>
-		<style>
-			html {
-				height: 100%;
-				overflow: hidden;
-			}
-			body {
-				background: black;
-				padding: 20px 50px;
-				margin: 0px;
-				height:100%;
-			}
-			textarea {
-				float: left;
-				background: transparent;
-				border: 0px;
-				color: #fff;
-				padding: 0px;
-				width: 85%;
-				height: -webkit-calc(100% - 40px);
-				font-family: monospace;
-				outline: none;
-				resize: none;
-				font-size: 13px;
-			}
-			#dropdown_area {
-				float: left;
-				padding-left: 10px;
-				width: 10%;
-				color: white;
-			}
-			#linenosblock {
-				position: absolute;
-				top: 20px;
-				left: 0px;
-				width: 40px;
-				height: -webkit-calc(100% - 40px);
-				font-family: monospace;
-				font-size: 13px;
-				z-index: -1000;
-				text-align: right;
-				overflow-y: hidden;
-			}
-			.linenos {
-				color: #7d7d7d;
-			}
-			.linenos.error {
-				color: red;
-			}
-			.linenos .current {
-				color: white;
-			}
-			.linenos .current.error {
-				color: red;
-			}
-			#filename {
-				margin-top: -13px;
-				color: white;
-				font-size: 13px;
-				font-family: monospace;
-				opacity: 1.0;
-			}
-			#filename.save {
-				-webkit-animation: pulse 2s ease-out;
-				-webkit-animation-iteration-count: infinite;
-			}
-			@-webkit-keyframes pulse {
-				0% {
-					opacity: 0.6;
-				}
-				50% {
-					opacity: 1.0;
-				}
-				100% {
-					opacity: 0.6;
-				}
-			}
-		</style>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
 		<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+		<script src="js/bootstrap.js"></script>
 		<script>
 			$(document).ready(function(){
 				$('.linenos .number').show();
@@ -86,28 +12,35 @@
 				$('.linenos[data-row-number=1] .number').hide();
 				$('.linenos[data-row-number=1] .current').show();
 				$('#dropdown_area').hide();
+				$('#help_modal').hide();
+				//$('#dropdown_menu').hide();
 				$('textarea:input').keydown(function(e) {
 					if(e.keyCode == 9) {
-						var myValue = "   ";
-				        var startPos = this.selectionStart;
-				        var endPos = this.selectionEnd;
-				        var scrollTop = this.scrollTop;
-				        this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
-				        this.focus();
-				        this.selectionStart = startPos + myValue.length;
-				        this.selectionEnd = startPos + myValue.length;
-				        this.scrollTop = scrollTop;
-						e.preventDefault();
+							var myValue = "    ";
+					        var startPos = this.selectionStart;
+					        var endPos = this.selectionEnd;
+					        var scrollTop = this.scrollTop;
+					        this.value = this.value.substring(0, startPos) + myValue + this.value.substring(endPos,this.value.length);
+					        this.focus();
+					        this.selectionStart = startPos + myValue.length;
+					        this.selectionEnd = startPos + myValue.length;
+					        this.scrollTop = scrollTop;
+							e.preventDefault();
 					} else if ((e.keyCode == 10 || e.keyCode == 13) && (e.ctrlKey || e.metaKey)) {
 						$('#dropdown_area').fadeIn();
 						e.preventDefault();
 						window.dropdown_visible = true;
-					} else if(e.keyCode == 27){
+					} else if(e.keyCode == 72 && e.ctrlKey){
+						// Unfortunately, e.metaKey (Command key) won't work due to Mac OS X built-in shortcut
+						// e.preventDefault() doesn't affect, since its OS based, not Browser based.
+						e.preventDefault();
+						$('#help_modal').modal();
+					}else if(e.keyCode == 27){
 						if(window.dropdown_visible == true){
 							// remove all values from the search bar also.
 							$('#dropdown_area').fadeOut();
+							window.dropdown_visible = false;
 						}
-					} else if(e.keyCode == 8){
 					}
 				});
 				$('#textarea').scroll(function(){
@@ -121,7 +54,7 @@
 				for(i=1;i<countLines();i++){
 					$('#linenosblock').append('<div class="linenos" data-row-number="'+(i)+'"><span class="number">'+(i)+'</span><span class="current" style="display: none;">&rarr;</span></div>');
 				}
-				$('#linenosblock').attr('data-total-rows',(countLines()));
+				$('#linenosblock').attr('data-total-rows',countLines());
 			}
 			function in_array(needle, haystack) {
 				for(key in haystack){
@@ -156,6 +89,22 @@
 		<textarea id="textarea" spellcheck="false" onkeyup="placeNewLineNumbers(); getLineNumber(this);" onmouseup="placeNewLineNumbers(); getLineNumber(this);" placeholder="Your pseudo code goes here.                   
 														----------------																										
 														For a list of commands. Press Control + H"></textarea>
-		<div id="dropdown_area">Dropdown</div>
+		<div id="dropdown_area">
+			<input type="text" data-provide="typeahead" data-source=""/>
+			<ul>
+				<li>Result 1</li>
+				<li>Result 2</li>
+			</ul>
+		</div>
+		<div id="dropdown_menu">Menu</div>
+		<div id="help_modal" class="modal fade show">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3>Help</h3>
+			</div>
+			<div class="modal-body">
+				<p>The body</p>
+			</div>
+		</div>
 	</body>	
 </html>
