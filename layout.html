@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Layout builder</title>
+		<!--<script src="http://code.jquery.com/jquery-1.8.2.min.js" type="text/javascript"></script>-->
+		<link href='http://fonts.googleapis.com/css?family=Cantarell:700' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+	<body>
+		<div id="sidebar">
+			<div class="sidebar_container">
+				<span class="sidebar_header"><p><a href="#">pseudify</a></p></span>
+				<div id="menu_area">
+					<form method="post">
+						<input id="menu_search" type="text" placeholder="Search &hellip;" />
+					</form>
+				</div>
+			</div>
+			<div class="sidebar_container">
+				<span class="sidebar_header"><p>Open Files</p></span>
+				<ul class="open_files">
+					<li class="close_open_files">
+						<span class="close"><a href="#">&times;</a></span>
+						<span class="filename">index.php</span>
+						<span class="current">&larr;</span>
+					</li>
+					<li class="close_open_files">
+						<span class="close"><a href="#">&times;</a></span>
+						<span class="filename">index.php</span>
+					</li>
+					<li class="close_open_files">
+						<span class="close"><a href="#">&times;</a></span>
+						<span class="filename">index.php</span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div id="linenosblock" data-total-rows="1">
+				<div class="linenos" data-row-number="1"><span class="number">1</span><span class="current">&rarr;</span></div>
+			</div>
+		<textarea id="textarea" spellcheck="false" onkeyup="placeNewLineNumbers(); getLineNumber(this);" onmouseup="placeNewLineNumbers(); getLineNumber(this);" placeholder="Your pseudo code goes here."></textarea> 
+	</body>
+</html>
